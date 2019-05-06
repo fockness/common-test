@@ -2,7 +2,7 @@ package com.example.demo.cases.algorithm;
 
 /**
 * @author shibin E-mail : shibin@uama.com.cn
-* @Date creation time 锛�2018-09-05 15:44
+* @Date creation time 创建2018-09-05 15:44
 * @Description
 *	求出某数是否是回文数
 */

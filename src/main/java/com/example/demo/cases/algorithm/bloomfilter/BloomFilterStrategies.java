@@ -1,7 +1,8 @@
-package com.test.algorithm.bloomfilter;
+package com.example.demo.cases.algorithm.bloomfilter;
 /**
 * @author shibin
-* @version ´´½¨Ê±¼ä£º2019Äê3ÔÂ5ÈÕ ÏÂÎç5:17:55
+* @version åˆ›å»ºæ—¶é—´ï¼š2019å¹´3æœˆ5æ—¥ ä¸‹åˆ5:17:55
+ * *
 * 
 */
 public enum BloomFilterStrategies implements BloomFilter.Strategy{

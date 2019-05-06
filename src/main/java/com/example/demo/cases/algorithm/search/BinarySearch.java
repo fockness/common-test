@@ -1,8 +1,8 @@
-package com.test.algorithm.search;
+package com.example.demo.cases.algorithm.search;
 
 /**
  * 
- *ÕÛ°ë²éÕÒ·¨(¶ş·Ö²éÕÒ)
+ *æŠ˜åŠæŸ¥æ‰¾æ³•(äºŒåˆ†æŸ¥æ‰¾)
  */
 public class BinarySearch {
 

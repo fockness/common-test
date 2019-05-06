@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 /**
  * 
- *����������Ļ����������ǽ�һ�����ݲ��뵽�Ѿ��ź�������������У��Ӷ��õ�һ���µġ�������һ���������ݡ�
+ *插入排序的基本操作就是将一个数据插入到已经排好序的有序数据中，从而得到一个新的、个数加一的有序数据。
  *
  */
 public class InsertSort {
@@ -15,7 +15,7 @@ public class InsertSort {
 		System.out.println(Arrays.toString(a));
 	}
 
-	//����
+	//基本
 	public static void insertSort(int[] a){
 		int length = a.length;
 		for(int i=0; i<length; i++){
@@ -28,8 +28,8 @@ public class InsertSort {
 			}
 		}
 	}
-	
-	//�Ż�
+
+	//优化
 	public static void insertSort2(int[] a){
 		int length = a.length;
 		for(int i=0; i<length; i++){

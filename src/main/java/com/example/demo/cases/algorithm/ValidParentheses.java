@@ -4,8 +4,8 @@ import java.util.Stack;
 
 /**
 * @author shibin
-* @version ����ʱ�䣺2019��4��17�� ����4:27:49
-* 	��Ч����
+* @version 创建时间：2019年4月17日 下午4:27:49
+ * * 	有效括号
 */
 public class ValidParentheses {
 

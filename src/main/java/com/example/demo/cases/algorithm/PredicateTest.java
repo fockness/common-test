@@ -1,19 +1,17 @@
 package com.example.demo.cases.algorithm;
 
+import com.google.common.collect.Lists;
+import lombok.Data;
+import org.junit.Test;
+
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
-
-import com.google.common.collect.Lists;
-
-import lombok.Data;
-
 /**
 * @author shibin
-* @version ����ʱ�䣺2019��3��5�� ����4:13:34
-* 	��ĳ���Ƿ��ǶԳ���
+* @version 创建时间：2019年3月5日 下午4:13:34
+ * * 	求某数是否是对称数
 */
 public class PredicateTest {
 
@@ -36,18 +34,18 @@ class User{
 }
 
 /**
- * ���Ե���дһ�����У�ʹ�õ�ʱ��̬����
+ * 断言单独写一个类中，使用的时候静态引入
  * @author shibin
  *
  */
 class UserPredicate{
-	
+
 	public static Predicate<User> moreThan18(){
 		return p->p.getAge() >= 10;
 	}
-	
+
 	/**
-	 * �൱���Զ��������
+	 * 相当于自定义过滤器
 	 * @param users
 	 * @param predicate
 	 * @return

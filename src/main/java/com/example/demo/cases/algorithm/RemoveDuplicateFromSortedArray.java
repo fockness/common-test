@@ -1,8 +1,8 @@
 package com.example.demo.cases.algorithm;
 /**
 * @author shibin
-* @version ����ʱ�䣺2019��4��18�� ����4:14:38
-* 	ɾ�����������е��ظ�Ԫ��
+* @version 创建时间：2019年4月18日 下午4:14:38
+ * * 	删除给定数组中的重复元素
 */
 public class RemoveDuplicateFromSortedArray {
 

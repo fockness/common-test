@@ -1,8 +1,8 @@
-package com.test.algorithm.sort;
+package com.example.demo.cases.algorithm.sort;
 /**
 * @author shibin
-* @version ´´½¨Ê±¼ä£º2019Äê4ÔÂ18ÈÕ ÏÂÎç6:49:32
-* Ö±½Ó²åÈëÅÅĞò
+* @version åˆ›å»ºæ—¶é—´ï¼š2019å¹´4æœˆ18æ—¥ ä¸‹åˆ6:49:32
+ * * ç›´æ¥æ’å…¥æ’åº
 */
 public class DirectInsertionSort {
 

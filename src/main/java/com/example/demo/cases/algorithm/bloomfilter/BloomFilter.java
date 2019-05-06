@@ -2,13 +2,13 @@ package com.example.demo.cases.algorithm.bloomfilter;
 
 /**
 * @author shibin
-* @version ����ʱ�䣺2019��3��5�� ����5:16:54
+* @version 创建时间：2019年3月5日 下午5:16:54
 * 
 */
 public class BloomFilter {
 	
 	/**
-	 * ����ʹ�ú���hash����
+	 * 具体使用何种hash方法
 	 */
 	private final Strategy strategy;
 

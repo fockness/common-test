@@ -1,15 +1,15 @@
 package com.example.demo.cases.algorithm;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.hash.BloomFilter;
 import com.google.common.hash.Funnels;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author shibin
- * @version ����ʱ�䣺2019��3��1�� ����10:48:25
- * �ο�https://blog.csdn.net/tianyaleixiaowu/article/details/74739827
+ * @version 创建时间：2019年3月1日 上午10:48:25
+ * 参考https://blog.csdn.net/tianyaleixiaowu/article/details/74739827
  */
 public class BloomFilterTest {
 
@@ -24,7 +24,7 @@ public class BloomFilterTest {
 
 		for (int i = 0; i < size; i++) {
 			if (!bloomFilter.mightContain(i)) {
-				System.out.println("�л���������");
+				System.out.println("有坏人逃脱了");
 			}
 		}
 
@@ -34,6 +34,6 @@ public class BloomFilterTest {
 				list.add(i);
 			}
 		}
-		System.out.println("�����˵�������" + list.size());
+		System.out.println("有误伤的数量：" + list.size());
 	}
 }

@@ -1,7 +1,7 @@
-package com.test.algorithm;
+package com.example.demo.cases.algorithm;
 /**
 * @author shibin
-* @version ´´½¨Ê±¼ä£º2019Äê3ÔÂ5ÈÕ ÏÂÎç4:59:26
+* @version ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£º2019ï¿½ï¿½3ï¿½ï¿½5ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½4:59:26
 * 
 */
 public enum InterfaceTest implements aaa{
