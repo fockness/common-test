@@ -34,15 +34,6 @@ public class BubbleSort {
 		}
 	}
 
-	private static void bubbleSort2(int[] array) {
-		for(int i=0; i<array.length-i; i++) {
-			for(int j=0; j<array.length-i; j++) {
-//				if() {
-//					
-//				}
-			}
-		}
-	}
 }
 
 

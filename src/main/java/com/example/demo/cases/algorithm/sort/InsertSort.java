@@ -7,7 +7,8 @@ import java.util.Arrays;
  *插入排序的基本操作就是将一个数据插入到已经排好序的有序数据中，从而得到一个新的、个数加一的有序数据。
  *
  */
-public class InsertSort {
+public class
+InsertSort {
 	
 	public static void main(String[] args) {
 		int[] a = {35, 182, 94, 112, 4843, 23, 123, 48, 94, 35};
