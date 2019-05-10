@@ -133,4 +133,14 @@ public class OptionalTest {
         list = Optional.ofNullable(list).orElse(Lists.newArrayList());
         System.out.println(list);
     }
+
+    @Test
+    public void testOptionalAndConsumer(){
+        String string = "aw";
+        Optional<String> optional = Optional.ofNullable(string);
+        optional.ifPresent(s->{
+            System.out.println(s.toUpperCase());
+        });
+        optional.orElseGet(String::new);
+    }
 }
