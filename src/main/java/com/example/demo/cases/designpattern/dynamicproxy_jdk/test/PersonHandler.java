@@ -1,4 +1,4 @@
-package com.example.demo.cases.designpattern.dynamicproxy.test;
+package com.example.demo.cases.designpattern.dynamicproxy_jdk.test;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package com.example.demo.cases.designpattern.dynamicproxy;
+package com.example.demo.cases.designpattern.dynamicproxy_jdk;
 
 import java.lang.reflect.Method;
 
@@ -10,7 +10,7 @@ public class $Proxy1 implements Moveable {
         this.h = h;
     }
 
-    com.example.demo.cases.designpattern.dynamicproxy.InvocationHandler h;
+    com.example.demo.cases.designpattern.dynamicproxy_jdk.InvocationHandler h;
 
     @Override
     public void move() {

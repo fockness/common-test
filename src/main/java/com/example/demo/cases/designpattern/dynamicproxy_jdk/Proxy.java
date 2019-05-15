@@ -1,4 +1,4 @@
-package com.example.demo.cases.designpattern.dynamicproxy;
+package com.example.demo.cases.designpattern.dynamicproxy_jdk;
 
 import javax.tools.JavaCompiler;
 import javax.tools.JavaCompiler.CompilationTask;

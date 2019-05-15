@@ -1,4 +1,4 @@
-package com.example.demo.cases.designpattern.dynamicproxy;
+package com.example.demo.cases.designpattern.dynamicproxy_jdk;
 
 
 public class Client {
