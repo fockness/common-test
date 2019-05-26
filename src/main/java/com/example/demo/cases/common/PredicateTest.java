@@ -18,7 +18,7 @@ public class PredicateTest {
     @Test
     public void testPredicate() {
         List<User> users = Lists.newArrayList(new User(10), new User(20), new User(5));
-        users = UserPredicate.filterUser(users, UserPredicate.moreThan18());
+        users = UserPredicate.filterUser(users, UserPredicate.moreThan18());//或者p -> p.getAge() > 18也可以
         System.out.println(users);
     }
 }
