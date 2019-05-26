@@ -10,6 +10,8 @@ public class Client {
         enhancer.setCallback(new DemoMethodInterceptor());
         Subject subject = (Subject) enhancer.create();
         subject.resquest();
+
+//        Enhancer.create(Subject.class, new DemoMethodInterceptor());
     }
 }
 
