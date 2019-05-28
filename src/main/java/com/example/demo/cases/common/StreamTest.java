@@ -7,6 +7,7 @@ package com.example.demo.cases.common;
 */
 
 import com.google.common.collect.Lists;
+import lombok.Data;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -113,13 +114,32 @@ public class StreamTest {
 		});
 		System.out.println(list);
 	}
-	
+
+	/**
+	 * 将数据分组
+	 */
 	@Test
 	public void testGroup() {
 		List<String> list = Lists.newArrayList("aaa", "aaa", "bbb");
         System.out.println(list.stream().collect(Collectors.groupingBy(v -> v, Collectors.counting())));
+
+        List<User> users =
+				Lists.newArrayList(new User("lili", 12), new User("wangming", 12), new User("dagou", 19));
+
+		System.out.println(users.stream().collect(Collectors.groupingBy(u -> u.getAge())));
 	}
-	
+
+	@Data
+	private static class User{
+		private String name;
+		private Integer age;
+
+		public User(String name, Integer age) {
+			this.name = name;
+			this.age = age;
+		}
+	}
+
 	private boolean filter(String string) {
 		return true;
 	}
