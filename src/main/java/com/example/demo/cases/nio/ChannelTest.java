@@ -48,7 +48,6 @@ public class ChannelTest {
 		fos.close();
 	}
 	
-	
 	//利用通道完成文件的复制(直接缓冲区),内存映射文件
 	@Test
 	public void testChannel2() throws Exception{
@@ -65,7 +64,7 @@ public class ChannelTest {
 		inByteBuffer.get(b);
 		outByteBuffer.put(b);
 	}
-	
+
 	@Test
 	public void testChannel3() throws Exception{
 		//直接缓冲区
@@ -78,7 +77,7 @@ public class ChannelTest {
 		outChannel.close();
 		incChannel.close();
 	}
-	
+
 	@Test
 	public void testChannel4() throws Exception{
 		//获取通道
@@ -168,7 +167,7 @@ public class ChannelTest {
 		sChannel.close();
 		fChannel.close();
 	}
-	
+
 	@Test
 	public void server() throws Exception{
 		//获取通道
@@ -223,7 +222,7 @@ public class ChannelTest {
 		sChannel.close();
 		fChannel.close();
 	}
-	
+
 	@Test
 	public void server2() throws Exception{
 		ServerSocketChannel ssChannel = ServerSocketChannel.open();
