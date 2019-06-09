@@ -1,23 +1,17 @@
 package com.example.demo.cases.nio;
 
+import org.junit.Test;
+
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
-import java.nio.channels.Pipe;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.nio.channels.Pipe.SinkChannel;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Scanner;
 
-import org.junit.Test;
 
-
-public class NonBlockingNIOTest {
+public class NonBlockingNioTest {
 	// 非阻塞式
 	@Test
 	public void client() throws Exception {

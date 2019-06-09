@@ -48,4 +48,22 @@ public class NioTest {
         buf.reset();
         System.out.println("capacity:"+buf.capacity()+"--limit:"+buf.limit()+"--position:"+buf.position());
     }
+
+    @Test
+    public void testMark(){
+        String str = "abcd";
+        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        buffer.put(str.getBytes());
+        buffer.flip();
+        byte[] b = new byte[buffer.limit()];
+        buffer.get(b, 0, 2);
+        System.out.println(new String(b, 0, 2));
+        System.out.println(buffer.position());
+        buffer.mark();
+        buffer.get(b, 2,2);
+        System.out.println(new String(b, 2, 2));
+        System.out.println(buffer.position());
+        buffer.reset();
+        System.out.println(buffer.position());
+    }
 }
