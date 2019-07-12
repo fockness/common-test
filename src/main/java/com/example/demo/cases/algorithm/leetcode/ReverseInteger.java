@@ -1,4 +1,4 @@
-package com.example.demo.cases.algorithm;
+package com.example.demo.cases.algorithm.leetcode;
 /**
 * @author shibin E-mail : shibin@uama.com.cn
 * @Date creation time 锛�2018-09-04 11:25

@@ -1,4 +1,4 @@
-package com.example.demo.cases.algorithm;
+package com.example.demo.cases.algorithm.leetcode;
 
 /**
 * @author shibin

@@ -1,4 +1,4 @@
-package com.example.demo.cases.algorithm;
+package com.example.demo.cases.algorithm.leetcode;
 /**
 * @author shibin
 * @version 创建时间：2019年4月18日 下午4:14:38

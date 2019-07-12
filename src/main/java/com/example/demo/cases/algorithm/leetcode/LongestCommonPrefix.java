@@ -1,8 +1,8 @@
-package com.example.demo.cases.algorithm;
-
-import java.util.List;
+package com.example.demo.cases.algorithm.leetcode;
 
 import com.google.common.collect.Lists;
+
+import java.util.List;
 
 /**
  * @author shibin
