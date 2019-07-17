@@ -10,7 +10,7 @@ public class CollectionUtil {
 
     public static <T> void swap(T[] array, Integer i1, Integer i2){
         T t = array[i1];
-        array[i2] = array[i1];
-        array[i1] = t;
+        array[i1] = array[i2];
+        array[i2] = t;
     }
 }

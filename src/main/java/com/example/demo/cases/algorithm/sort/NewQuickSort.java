@@ -7,14 +7,13 @@ import org.junit.Test;
  * 2 * @Author: shibin
  * 3 * @Date: 2019-7-16 19:54
  * 4   快速排序
- *      还有问题
  */
 public class NewQuickSort {
 
     @Test
     public void testTwoWayQuickSort(){
-        Integer[] array = {2,3,5,1,7,3,8,1,2,0,12,42,1,7};
-        sort(array, 0, array.length);
+        Integer[] array = {2,3,5,1,7,3,5,23,12,75,22,1,0};
+        recursive(array, 0, array.length-1);
         CollectionUtil.print(array);
     }
 
