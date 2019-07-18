@@ -15,7 +15,7 @@ public class DualPivotQuicksort {
 
     @Test
     public void testTwoWayQuickSort(){
-        Integer[] array = {2,3,5,1};
+        Integer[] array = {2,3,5,1,7,3,5,23,12,75,22,1,0};
         recursive(array, 0, array.length-1);
         CollectionUtil.print(array);
     }
@@ -29,31 +29,19 @@ public class DualPivotQuicksort {
         recursive(array, base+1, right);
     }
 
-    private Integer sort(Integer[] arr, Integer l, Integer r){
-//        Integer base = array[left];
-//        Integer j = right;
-//        Integer i = left + 1;
-//        while(true){
-//            while(array[i]<base && i<right) i++;
-//            while(array[j]>base && j>left+1) j--;
-//            if(i>j){
-//                break;
-//            }
-//            CollectionUtil.swap(array, i++, j--);
-//        }
-//        CollectionUtil.swap(array, left, j);
-//        return j;
-        int v=arr[l];
-        int i=l+1;int j=r;
-        while( true ) {
-            while(i<=r && arr[i]<v) i++;
-            while(j>=l+1&& arr[j]>v)j--;
-            if (i>j) break;
-            CollectionUtil.swap(arr,i,j);
-            i++;
-            j--;
+    private Integer sort(Integer[] array, Integer left, Integer right){
+        Integer base = array[left];
+        Integer j = right;
+        Integer i = left + 1;
+        while(true){
+            while(i<=right && array[i]<base) i++;
+            while(j>left+1 && array[j]>base) j--;
+            if(i>j){
+                break;
+            }
+            CollectionUtil.swap(array, i++, j--);
         }
-        CollectionUtil.swap(arr,l,j);
-        return  j;
+        CollectionUtil.swap(array, left, j);
+        return j;
     }
 }
