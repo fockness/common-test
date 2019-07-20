@@ -35,7 +35,7 @@ public class DualPivotQuicksort {
         Integer i = left + 1;
         while(true){
             while(i<=right && array[i]<base) i++;
-            while(j>left+1 && array[j]>base) j--;
+            while(j>=left+1 && array[j]>base) j--;
             if(i>j){
                 break;
             }
