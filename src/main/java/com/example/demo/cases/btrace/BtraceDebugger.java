@@ -47,7 +47,7 @@ public class BtraceDebugger {
     public static void printMethodParameters(@ProbeClassName String probeClassName
             , @ProbeMethodName String probeMethodName
             , AnyType[] args  //被拦截的方法的参数值
-            , @Self Object object){//实际中可以放在目标项目中使用该项目下的对象作为返回值
+            , @Self Object object){//实际中可以放在目标项目中使用该项目下的对象作为返回值，在这个例子中即打印SysBusinessRegionServiceImpl对象
         BTraceUtils.println("printMethodParameters");
         BTraceUtils.println("probeClassName:" + probeClassName);
         BTraceUtils.println("probeMethodName:" + probeMethodName);
@@ -70,5 +70,25 @@ public class BtraceDebugger {
             , method = "getBusinessRegionList", location = @Location(value = Kind.LINE, line = 377))
     public static void traceLine(@ProbeClassName String probeClassName, @ProbeMethodName String probeMethodName, Integer line){
         BTraceUtils.println(probeClassName + "," + probeMethodName + "," + line);
+    }
+
+    /**
+     * 查看某个子方法是否被调用
+     * @param pcm
+     * @param pmn
+     * @param instance
+     * @param method
+     */
+    @OnMethod(
+            clazz = "com.uama.microservices.provider.base.web.v1.OrgInfoProvider",
+            method = "addTest",
+            location = @Location(value = Kind.CALL, clazz = "/.*/", method = "add")
+    )
+    public static void trace3(@ProbeClassName String pcm, @ProbeMethodName String pmn,
+                              @TargetInstance Object instance, @TargetMethodOrField String method) {
+        BTraceUtils.println("ProbeClassName:" + pcm);//父名
+        BTraceUtils.println("ProbeMethodName:" + pmn);//父方法
+        BTraceUtils.println("TargetInstance: "+ instance);//被调用的子方法所在类名，这里就是OrgInfoProvider
+        BTraceUtils.println("TargetMethodOrField : "+ method);//目标方法里的子方法add
     }
 }
