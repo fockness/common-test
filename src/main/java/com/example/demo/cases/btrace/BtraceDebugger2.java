@@ -35,4 +35,15 @@ public class BtraceDebugger2 {
         BTraceUtils.print(BTraceUtils.get(orgName, obj));
         BTraceUtils.print(BTraceUtils.get(mobileNum, obj));
     }
+
+    /**
+     * 查看对象的实例属性值
+     * @param obj
+     */
+    @OnMethod(clazz = "com.uama.microservices.provider.base.web.v1.OrgInfoProvider"
+            , method = "addTest", location = @Location(value = Kind.ENTRY))
+    public static void addTest2(@Self Object obj){
+        Field field = BTraceUtils.field("com.uama.microservices.provider.base.web.v1.OrgInfoProvider", "orgInfoService");
+        BTraceUtils.print(BTraceUtils.get(field, obj));
+    }
 }
