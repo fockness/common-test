@@ -13,13 +13,6 @@ import java.lang.reflect.Field;
 @BTrace
 public class BtraceDebugger2 {
 
-    /**
-     * 命令为：Btrace -cp "E:\Code\uama-allinone\uama-microservices-base\uama
-     * -microservices-api-base\target\classes" 9324 BtraceDebugger2.java
-     * @param probeClassName
-     * @param probeMethodName
-     * @param obj
-     */
     @OnMethod(clazz = "com.uama.microservices.provider.base.web.v1.OrgInfoProvider"
             , method = "addTest", location = @Location(value = Kind.ENTRY))
     public static void addTest(@ProbeClassName String probeClassName
