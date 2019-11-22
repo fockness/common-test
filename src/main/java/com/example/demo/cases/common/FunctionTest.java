@@ -1,6 +1,7 @@
 package com.example.demo.cases.common;
 
 import org.junit.Test;
+import org.omg.CORBA.INTERNAL;
 
 import java.util.function.Function;
 
@@ -12,10 +13,10 @@ import java.util.function.Function;
  */
 public class FunctionTest {
 
-
     @Test
     public void testApply(){
         Function<Integer, Integer> function = i -> i+1;//猜测可能是入参只有一个i，所以匹配到的是apply
+        Function<Integer, String> function1 = i -> String.valueOf(i+1);//前一个是参数类型，后一个是返回值类型
         System.out.println(function.apply(7));
     }
 

@@ -5,7 +5,9 @@ import lombok.Data;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -24,6 +26,11 @@ public class PredicateTest {
         //Predicate<User> predicate = p -> p.getAge() >= 10;
         //将多个predicate组合在一起
         users = UserPredicate.filterUser(users, UserPredicate.p1().and(UserPredicate.p2()).and(UserPredicate.p3));
+    }
+
+    @Test
+    public void testPredicateAndConsumer(){
+        UserPredicate2.testAndSet(()->new User(1), u->u.getAge()>1, u->u.setAge(2));
     }
 }
 
@@ -66,5 +73,21 @@ class UserPredicate{
      */
     public static List<User> filterUser(List<User> users, Predicate<User> predicate){
         return users.stream().filter(predicate).collect(Collectors.<User>toList());
+    }
+}
+
+class UserPredicate2{
+
+    /**
+     * 泛用性接口，首先根据predicate进行boolean判断，true之后使用consumer进行对象内部赋值操作
+     * @param supplier
+     * @param predicate
+     * @param consumer
+     */
+    public static void testAndSet(Supplier<User> supplier, Predicate<User> predicate, Consumer<User> consumer){
+        User user = supplier.get();
+        if(predicate.test(user)){
+            consumer.accept(user);
+        }
     }
 }
