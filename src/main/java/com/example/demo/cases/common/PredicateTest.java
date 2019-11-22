@@ -20,6 +20,10 @@ public class PredicateTest {
         List<User> users = Lists.newArrayList(new User(10), new User(20), new User(5));
         users = UserPredicate.filterUser(users, UserPredicate.moreThan18());//或者p -> p.getAge() > 18也可以
         System.out.println(users);
+
+        //Predicate<User> predicate = p -> p.getAge() >= 10;
+        //将多个predicate组合在一起
+        users = UserPredicate.filterUser(users, UserPredicate.p1().and(UserPredicate.p2()).and(UserPredicate.p3));
     }
 }
 
@@ -43,6 +47,16 @@ class UserPredicate{
     public static Predicate<User> moreThan18(){
         return p->p.getAge() >= 10;
     }
+
+    public static Predicate<User> p1(){
+        return p->p.getAge()>1;
+    }
+
+    public static Predicate<User> p2(){
+        return p->p.getAge()>2;
+    }
+
+    public static Predicate<User> p3 = p->p.getAge()>3;
 
     /**
      * 相当于自定义过滤器
