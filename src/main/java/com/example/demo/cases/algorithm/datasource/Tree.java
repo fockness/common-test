@@ -1,12 +1,14 @@
 package com.example.demo.cases.algorithm.datasource;
 
 import com.example.demo.cases.util.Check;
+import lombok.Data;
 
 /**
  *
  */
 public class Tree {
 
+    @Data
     public class TreeNode<T> {
         private T value;
         private TreeNode leftNode;
