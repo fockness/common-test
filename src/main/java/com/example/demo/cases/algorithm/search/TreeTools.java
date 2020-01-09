@@ -30,5 +30,51 @@ public class TreeTools {
         return Math.max(leftDepth, rightDepth);
     }
 
+    /**
+     * 前序遍历:中左右
+     */
+    public static void preOrderTravel(Tree.TreeNode node){
+        if(node == null){
+            return;
+        }
+        System.out.println(node.getValue());
+        preOrderTravel(node.getLeftNode());
+        preOrderTravel(node.getRightNode());
+    }
+
+    /**
+     * 中序遍历:左中右
+     * @param node
+     */
+    public static void midOrderTravel(Tree.TreeNode node){
+        if(node == null){
+            return;
+        }
+        midOrderTravel(node.getLeftNode());
+        System.out.println(node.getValue());
+        midOrderTravel(node.getRightNode());
+    }
+
+    /**
+     *
+     * 后序遍历:左右中
+     * @param node
+     */
+    public static void backOrderTravel(Tree.TreeNode node){
+        if(node == null){
+            return;
+        }
+        backOrderTravel(node.getLeftNode());
+        backOrderTravel(node.getRightNode());
+        System.out.println(node.getValue());
+    }
+
+    /**
+     * 分层遍历
+     * @param node
+     */
+    public static void levelTravel(Tree.TreeNode node){
+                
+    }
 
 }

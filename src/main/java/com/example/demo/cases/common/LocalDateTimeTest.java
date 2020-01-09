@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class LocalDateTimeTest {
 
@@ -25,5 +27,18 @@ public class LocalDateTimeTest {
 
         //LocalDateTime对象转String
         System.out.println(time.format(DateTimeFormatter.ISO_DATE));
+    }
+
+    @Test
+    public void testMethods(){
+       /* LocalDateTime now = LocalDateTime.now();
+        //减半小时
+        System.out.println(now.minusMinutes(30L));
+        System.out.println(now.plusMinutes(30L));*/
+
+        String regex = "[\u4e00-\u9fa5]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher match = pattern.matcher("你asd好");
+        System.out.println(match.find());
     }
 }
