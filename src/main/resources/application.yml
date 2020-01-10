@@ -8,3 +8,8 @@ spring:
     name: common-test-service
 server:
   port: 8079
+#MyBatis配置
+mybatis:
+  mapper-locations: classpath:com/examples/demo/cases/mapper/*.xml
+  configuration:
+      map-underscore-to-camel-case: true
