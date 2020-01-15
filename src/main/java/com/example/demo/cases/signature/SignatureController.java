@@ -9,6 +9,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *  方案一：
+ * 需要进行接口签名校验的controller加上@InterfaceSignature，在类或者方法上加都可以
+ * 配置文件中需要有一个开关去设定是否开启所有接口都要签名校验，开启就不需要@InterfaceSignature，没开启就需要该注解来指定
+ * 方案二：
+ * 需要进行接口签名校验的对象模型，加上注解@Signature以及在字段上加@SignatureField指定哪些字段需要校验
+ *
+ */
 @RestController
 public class SignatureController {
 

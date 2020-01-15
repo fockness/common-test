@@ -161,12 +161,12 @@ public class SignatureUtils {
                 field.setAccessible(true);
                 try {
                     if (isAnnotated(field.getType(), Signature.class)) {
-                        if (!Objects.isNull(field.get(object))) {
+                        if (Objects.nonNull(field.get(object))) {
                             map.put(field.getName(), toSplice(field.get(object)));
                         }
                     } else {
                         SignatureField sgf = field.getAnnotation(SignatureField.class);
-                        if (StringUtils.isNotEmpty(sgf.customValue()) || !Objects.isNull(field.get(object))) {
+                        if (StringUtils.isNotEmpty(sgf.customValue()) || Objects.nonNull(field.get(object))) {
                             map.put(StringUtils.isNotBlank(sgf.customName()) ? sgf.customName() : field.getName()
                                     , StringUtils.isNotEmpty(sgf.customValue()) ? sgf.customValue() : toString(field.get(object)));
                         }
@@ -265,7 +265,7 @@ public class SignatureUtils {
         return annotation;
     }
 
-    private static boolean isAnnotated(AnnotatedElement element, Class<? extends Annotation> annotationType) {
+    public static boolean isAnnotated(AnnotatedElement element, Class<? extends Annotation> annotationType) {
         return element.isAnnotationPresent(annotationType);
     }
 

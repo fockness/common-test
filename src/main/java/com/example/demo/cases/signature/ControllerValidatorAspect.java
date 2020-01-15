@@ -1,11 +1,8 @@
 package com.example.demo.cases.signature;
 
+import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.google.common.collect.Lists;
-import com.xxxx.cache.service.ICacheService;
-import com.xxxx.wmhopenapi.util.RelaxedConfigurationBinder;
-import com.xxxx.wmhopenapi.util.signature.SignatureContext;
-import com.xxxx.wmhopenapi.web.config.LimitConstants;
-import com.xxxx.wmhopenapi.web.util.ValidatorUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -27,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
@@ -35,12 +31,13 @@ import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import static com.example.demo.cases.signature.SignatureConstants.*;
+
 @Order(2)
 @Aspect
 @Component
+@Slf4j
 public class ControllerValidatorAspect {
-
-    private static Logger LOGGER = LoggerFactory.getLogger(ControllerValidatorAspect.class);
 
     //同一个请求多长时间内有效
     private static final Long EXPIRE_TIME = 60 * 1000 * 10L;
@@ -48,10 +45,7 @@ public class ControllerValidatorAspect {
     private static final Long RESUBMIT_DURATION = 2000L;
 
     @Autowired
-    private LimitConstants limitConstants;
-
-    @Autowired
-    private ICacheService redisCacheService;
+    private SignatureHeaders signatureHeaders;
 
     @Around("execution(* com.xxxx.wmhopenapi.web.controller..*.*(..)) " +
             "&& @annotation(com.xxxx.wmhopenapi.util.signature.Signature) " +
@@ -61,90 +55,125 @@ public class ControllerValidatorAspect {
             "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping) " +
             "|| @annotation(org.springframework.web.bind.annotation.PatchMapping))"
     )
-    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {//NOSONAR
-        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-        //如果不是开放的URL, 进行签名校验
-        if (Objects.isNull(request.getAttribute(REQUEST_URL_OPEN))) {
-            MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
-            Method method = methodSignature.getMethod();
-            Signature signature = AnnotationUtils.findAnnotation(method, Signature.class);
-
-            //获取header中的相关参数
-            SignatureHeaders signatureHeaders = generateSignatureHeaders(signature, request);
-
-            //客户端签名
-            String clientSignature = signatureHeaders.getSignature();
-
-            //获取到header中的拼接结果
-            String headersToSplice = SignatureUtils.toSplice(signatureHeaders);
-            //服务端签名
-            List<String> allSplice = generateAllSplice(method, pjp.getArgs(), headersToSplice);
-
-            String serverSignature = SignatureUtils.signature(allSplice.toArray(new String[]{}), signatureHeaders.getAppsecret());
-
-            if (!clientSignature.equals(serverSignature)) {
-                LOGGER.error(String.format("签名不一致... clientSignature=%s, serverSignature=%s", clientSignature, serverSignature));
-                throw new RuntimeException("WMH5001");
-            }
-            SignatureContext.setSignatureHeaders(signatureHeaders);
-            LOGGER.info("签名验证通过, 相关信息: " + signatureHeaders);
+    public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+        //1、先检查配置文件中enable-all-interface-signature=true,true的话就开启所有接口签名校验
+        Optional.ofNullable(signatureHeaders).orElseThrow(() -> new RuntimeException("配置文件异常！"));
+        if(StringUtils.isNotBlank(signatureHeaders.getEnableAllInterfaceSignature())
+                && EnableAllInterfaceSignaturesEnum.TRUE.getValue().equals(signatureHeaders.getEnableAllInterfaceSignature())){
+            return validateSignatureSign(pjp);
         }
+        //2、判断接口所在类的注解上是否有@InterfaceSignature，有就开启签名校验
+        if(SignatureUtils.isAnnotated(pjp.getTarget().getClass(), InterfaceSignature.class)){
+            return validateSignatureSign(pjp);
+        }
+        //3、判断接口上是否有@InterfaceSignature注解
+        MethodSignature msig = null;
+        if (!(pjp.getSignature() instanceof MethodSignature)) {
+            throw new IllegalArgumentException("该注解只能用于方法");
+        }
+        msig = (MethodSignature) pjp.getSignature();
+        if(SignatureUtils.isAnnotated(pjp.getTarget().getClass().getMethod(msig.getName(), msig.getParameterTypes())
+                , InterfaceSignature.class)){
+            return validateSignatureSign(pjp);
+        }
+        return pjp.proceed();
+    }
+
+    /**
+     * 接口签名校验
+     * @param pjp
+     */
+    private Object validateSignatureSign(ProceedingJoinPoint pjp) throws Throwable{
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+        MethodSignature methodSignature = (MethodSignature) pjp.getSignature();
+        Method method = methodSignature.getMethod();
+        InterfaceSignature interfaceSignature = method.getDeclaringClass().getAnnotation(InterfaceSignature.class);
+        if(Objects.isNull(interfaceSignature)){
+            interfaceSignature = method.getAnnotation(InterfaceSignature.class);
+        }
+        //获取header中的相关参数
+        SignatureHeaders signatureHeaders = generateSignatureHeaders(interfaceSignature, request);
+        //客户端签名
+        String clientSignature = signatureHeaders.getSignature();
+        //获取到header中的拼接结果
+        String headersToSplice = SignatureUtils.toSplice(signatureHeaders);
+        //服务端签名
+        List<String> allSplice = generateAllSplice(method, pjp.getArgs(), headersToSplice);
+        String serverSignature = SignatureUtils.signature(allSplice.toArray(new String[]{}), signatureHeaders.getAppsecret());
+        if (!clientSignature.equals(serverSignature)) {
+            log.error(String.format("签名不一致... clientSignature=%s, serverSignature=%s", clientSignature, serverSignature));
+            throw new RuntimeException("接口签名不一致！");
+        }
+        //SignatureContext.setSignatureHeaders(signatureHeaders);
+        log.info("签名验证通过, 相关信息: " + signatureHeaders);
         try {
             return pjp.proceed();
-        } catch (Throwable e) {//NOSONAR
+        } catch (Throwable e) {
             throw e;
         }
     }
 
     /**
-     * 根据request 中 header值生成SignatureHeaders实体
+     * 根据request中header值生成SignatureHeaders实体
      */
-    private SignatureHeaders generateSignatureHeaders(Signature signature, HttpServletRequest request) throws Exception {//NOSONAR
+    private SignatureHeaders generateSignatureHeaders(InterfaceSignature interfaceSignature, HttpServletRequest request) throws Exception {
         Map<String, Object> headerMap = Collections.list(request.getHeaderNames())
                 .stream()
                 .filter(headerName -> SignatureHeaders.HEADER_NAME_SET.contains(headerName))
-                .collect(Collectors.toMap(headerName -> headerName.replaceAll("-", "."), headerName -> request.getHeader(headerName)));
-        PropertySource propertySource = new MapPropertySource("signatureHeaders", headerMap);
-        SignatureHeaders signatureHeaders = RelaxedConfigurationBinder.with(SignatureHeaders.class)
-                .setPropertySources(propertySource)
-                .doBind();
-        Optional<String> result = ValidatorUtils.validateResultProcess(signatureHeaders);
-        if (result.isPresent()) {
-            throw new ServiceException("WMH5000", result.get());
+                .collect(Collectors.toMap(headerName -> headerName.replaceAll(SignatureHeaders.SIGNATURE_HEADERS_PREFIX, StringUtils.EMPTY)
+                        , headerName -> request.getHeader(headerName)));
+        SignatureHeaders signatureHeaders = BeanUtils.mapToBean(headerMap, SignatureHeaders.class);
+        //校验appid是否对应
+        if(!this.signatureHeaders.getAppid().equals(signatureHeaders.getAppid())){
+            throw new RuntimeException("appid不匹配！");
         }
-        String appSecret = limitConstants.getSignatureLimit().get(signatureHeaders.getAppid());
+        String appSecret = this.signatureHeaders.INNER_APP_MAP.get(signatureHeaders.getAppid());
         if (StringUtils.isBlank(appSecret)) {
-            LOGGER.error("未找到appId对应的appSecret, appId=" + signatureHeaders.getAppid());
-            throw new ServiceException("WMH5002");
+            log.error("未找到appId对应的appSecret, appId=" + signatureHeaders.getAppid());
+            throw new RuntimeException("appSecret异常！");
         }
-
-        //其他合法性校验
+        signatureHeaders.setAppsecret(appSecret);
+        //校验接口签名是否超时
         Long now = System.currentTimeMillis();
         Long requestTimestamp = Long.parseLong(signatureHeaders.getTimestamp());
         if ((now - requestTimestamp) > EXPIRE_TIME) {
             String errMsg = "请求时间超过规定范围时间10分钟, signature=" + signatureHeaders.getSignature();
-            LOGGER.error(errMsg);
-            throw new ServiceException("WMH5000", errMsg);
+            log.error(errMsg);
+            throw new RuntimeException(errMsg);
         }
-        String nonce = signatureHeaders.getNonce();
+        //判断是否打开重复请求配置
+        if(StringUtils.isBlank(signatureHeaders.getResubmit())){
+            if(interfaceSignature.resubmit()){
+                return validateWhetherRepeatedSubmit(signatureHeaders.getNonce());
+            }
+            return signatureHeaders;
+        }
+        if(ResubmitEnum.TRUE.getValue().equals(signatureHeaders.getResubmit())){
+            return validateWhetherRepeatedSubmit(signatureHeaders.getNonce());
+        }
+        return signatureHeaders;
+    }
+
+    /**
+     * 校验是否重复提交
+     */
+    private SignatureHeaders validateWhetherRepeatedSubmit(String nonce){
+        //校验接口是否重复请求
         if (nonce.length() < 10) {
             String errMsg = "随机串nonce长度最少为10位, nonce=" + nonce;
+            log.error(errMsg);
+            throw new RuntimeException(errMsg);
+        }
+        String key = nonce + request.getServletPath() + JSON.toJSONString(request.getParameterMap());
+        String existNonce = redisCacheService.getString();
+        if (StringUtils.isBlank(existNonce)) {
+            redisCacheService.setString(nonce, nonce);
+            redisCacheService.expire(nonce, (int) TimeUnit.MILLISECONDS.toSeconds(RESUBMIT_DURATION));
+        } else {
+            String errMsg = "不允许重复请求, nonce=" + nonce;
             LOGGER.error(errMsg);
             throw new ServiceException("WMH5000", errMsg);
         }
-        if (!signature.resubmit()) {
-            String existNonce = redisCacheService.getString(nonce);
-            if (StringUtils.isBlank(existNonce)) {
-                redisCacheService.setString(nonce, nonce);
-                redisCacheService.expire(nonce, (int) TimeUnit.MILLISECONDS.toSeconds(RESUBMIT_DURATION));
-            } else {
-                String errMsg = "不允许重复请求, nonce=" + nonce;
-                LOGGER.error(errMsg);
-                throw new ServiceException("WMH5000", errMsg);
-            }
-        }
-
-        signatureHeaders.setAppsecret(appSecret);
         return signatureHeaders;
     }
 
@@ -199,7 +228,7 @@ public class ControllerValidatorAspect {
                 }
             }
             if (!findSignature) {
-                LOGGER.info(String.format("签名未识别的注解, method=%s, parameter=%s, annotations=%s", method.getName(), mp.getParameterName(), StringUtils.join(mp.getMethodAnnotations())));
+                log.info(String.format("签名未识别的注解, method=%s, parameter=%s, annotations=%s", method.getName(), mp.getParameterName(), StringUtils.join(mp.getMethodAnnotations())));
             }
         }
         List<String> toSplices = Lists.newArrayList();
