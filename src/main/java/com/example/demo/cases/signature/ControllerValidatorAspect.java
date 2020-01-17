@@ -8,14 +8,9 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.env.MapPropertySource;
-import org.springframework.core.env.PropertySource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,14 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import static com.example.demo.cases.signature.SignatureConstants.*;
 
 @Order(2)
 @Aspect
@@ -47,8 +41,8 @@ public class ControllerValidatorAspect {
     @Autowired
     private SignatureHeaders signatureHeaders;
 
-    @Around("execution(* com.xxxx.wmhopenapi.web.controller..*.*(..)) " +
-            "&& @annotation(com.xxxx.wmhopenapi.util.signature.Signature) " +
+    @Around("execution(* com.example.demo.cases.signature..*.*(..))" +
+           // "&& @annotation(com.xxxx.wmhopenapi.util.signature.Signature) " +
             "&& (@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
             "|| @annotation(org.springframework.web.bind.annotation.GetMapping) " +
             "|| @annotation(org.springframework.web.bind.annotation.PostMapping) " +
@@ -144,12 +138,12 @@ public class ControllerValidatorAspect {
         //判断是否打开重复请求配置
         if(StringUtils.isBlank(signatureHeaders.getResubmit())){
             if(interfaceSignature.resubmit()){
-                return validateWhetherRepeatedSubmit(signatureHeaders.getNonce());
+                validateWhetherRepeatedSubmit(signatureHeaders.getNonce());
             }
             return signatureHeaders;
         }
         if(ResubmitEnum.TRUE.getValue().equals(signatureHeaders.getResubmit())){
-            return validateWhetherRepeatedSubmit(signatureHeaders.getNonce());
+            validateWhetherRepeatedSubmit(signatureHeaders.getNonce());
         }
         return signatureHeaders;
     }
@@ -157,14 +151,14 @@ public class ControllerValidatorAspect {
     /**
      * 校验是否重复提交
      */
-    private SignatureHeaders validateWhetherRepeatedSubmit(String nonce){
+    private void validateWhetherRepeatedSubmit(String nonce){
         //校验接口是否重复请求
         if (nonce.length() < 10) {
             String errMsg = "随机串nonce长度最少为10位, nonce=" + nonce;
             log.error(errMsg);
             throw new RuntimeException(errMsg);
         }
-        String key = nonce + request.getServletPath() + JSON.toJSONString(request.getParameterMap());
+        /*String key = nonce + request.getServletPath() + JSON.toJSONString(request.getParameterMap());
         String existNonce = redisCacheService.getString();
         if (StringUtils.isBlank(existNonce)) {
             redisCacheService.setString(nonce, nonce);
@@ -173,8 +167,7 @@ public class ControllerValidatorAspect {
             String errMsg = "不允许重复请求, nonce=" + nonce;
             LOGGER.error(errMsg);
             throw new ServiceException("WMH5000", errMsg);
-        }
-        return signatureHeaders;
+        }*/
     }
 
     /**
