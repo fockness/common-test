@@ -1,13 +1,11 @@
 package com.example.demo.cases.signature;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *  方案一：
@@ -18,6 +16,8 @@ import java.util.List;
  *
  */
 @RestController
+@InterfaceSignature
+@Slf4j
 public class SignatureController {
 
     @RequestMapping("/exampleSignature")
@@ -25,7 +25,7 @@ public class SignatureController {
     public String exampleSignature(@RequestBody Object o) {
         //生成接口签名
         //初始化请求头信息
-        SignatureHeaders signatureHeaders = new SignatureHeaders();
+        /*SignatureHeaders signatureHeaders = new SignatureHeaders();
         signatureHeaders.setAppid("111");
         signatureHeaders.setAppsecret("222");
         signatureHeaders.setNonce(SignatureUtils.generateNonce());
@@ -36,7 +36,8 @@ public class SignatureController {
         //调用签名工具生成签名
         signatureHeaders.setSignature(SignatureUtils.signature(signatureHeaders, pathParams, null, null));
         System.out.println("签名数据: " + signatureHeaders);
-        System.out.println("请求数据: " + pathParams);
+        System.out.println("请求数据: " + pathParams);*/
+        log.info("signature info===================");
         return StringUtils.EMPTY;
     }
 }
