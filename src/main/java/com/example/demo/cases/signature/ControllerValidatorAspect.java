@@ -41,6 +41,8 @@ public class ControllerValidatorAspect {
     @Autowired
     private SignatureHeaders signatureHeaders;
 
+    //要使整个类的方法都适用@within，只适用某个方法@annotation
+
     @Around("execution(* com.example.demo.cases.signature..*.*(..))" +
            // "&& @annotation(com.xxxx.wmhopenapi.util.signature.Signature) " +
             "&& (@annotation(org.springframework.web.bind.annotation.RequestMapping) " +
