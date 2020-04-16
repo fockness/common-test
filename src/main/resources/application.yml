@@ -6,6 +6,9 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
   application:
     name: common-test-service
+  #liquibase:
+    #enabled: true
+    #change-log: "classpath:/liquibase/liquibase-master2.xml"
 server:
   port: 8079
 #MyBatis配置
