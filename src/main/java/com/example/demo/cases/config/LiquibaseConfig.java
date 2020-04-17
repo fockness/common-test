@@ -17,6 +17,7 @@ public class LiquibaseConfig {
     liquibase.setChangeLog("classpath:liquibase/liquibase-master.xml");
     liquibase.setContexts("development,test,production");
     liquibase.setShouldRun(true);
+    liquibase.setTag("b1");
     return liquibase;
   }
 

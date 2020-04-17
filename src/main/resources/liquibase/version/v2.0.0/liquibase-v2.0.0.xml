@@ -3,12 +3,20 @@
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+<!--    <changeSet id="20200415-2.0.0-001" author="shibin">-->
+<!--        <sql>-->
+<!--            ALTER TABLE sys_user ADD COLUMN `score` CHAR(100) NOT NULL DEFAULT '' COMMENT '分数';-->
+<!--        </sql>-->
+<!--        <rollback>-->
+<!--            ALTER TABLE sys_user DROP `score`;-->
+<!--        </rollback>-->
+<!--    </changeSet>-->
     <changeSet id="20200415-2.0.0-001" author="shibin">
-        <sql>
-            ALTER TABLE sys_user ADD COLUMN `score` CHAR(100) NOT NULL DEFAULT '' COMMENT '分数';
-        </sql>
+        <createTable tableName="changeRollback1">
+            <column name="id" type="int"/>
+        </createTable>
         <rollback>
-            ALTER TABLE sys_user DROP `score`;
+            <dropTable tableName="changeRollback1"/>
         </rollback>
     </changeSet>
 </databaseChangeLog>
