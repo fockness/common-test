@@ -110,6 +110,7 @@ class Predicate3<T>{
                     Constructor<E> constructor = clazz
                             .getConstructor(String.class);
                     E e = constructor.newInstance(errorMessage.getValue());
+                    throw e;
                 }
             }
         }catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException r){
