@@ -2,6 +2,8 @@ package com.example.demo.cases.common;
 
 import org.junit.Test;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.function.Predicate;
 
@@ -105,16 +107,13 @@ class Predicate3<T>{
         try{
             for(Predicate p : predicate){
                 if(!check(p)){
-                    throw new RuntimeException(errorMessage.getValue());
+                    Constructor<E> constructor = clazz
+                            .getConstructor(String.class);
+                    E e = constructor.newInstance(errorMessage.getValue());
                 }
             }
-        }catch (RuntimeException r){
-            try{
-                E e = clazz.cast(r);
-                throw e;
-            }catch (ClassCastException cc){
-                throw cc;
-            }
+        }catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException r){
+            r.printStackTrace();
         }
         return this;
     }
