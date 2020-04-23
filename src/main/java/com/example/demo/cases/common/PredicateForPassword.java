@@ -55,7 +55,7 @@ class Predicate3<T>{
     }
 
     /**
-     * userPredicate.build(new User()).check(UserMessage.FORGET, predicate1)
+     * userPredicate.buildTarget(new User()).check(UserMessage.FORGET, predicate1)
      *                                .check(UserMessage.FORGET2, predicate2);
      * @param predicate
      * @return
@@ -65,7 +65,7 @@ class Predicate3<T>{
     }
 
     /**
-     * userPredicate.build(new User()).check(UserMessage.FORGET, predicate1, predicate2...)
+     * userPredicate.buildTarget(new User()).batchCheck(UserMessage.FORGET, predicate1, predicate2...)
      * @param e
      * @param predicate
      * @return
@@ -81,7 +81,7 @@ class Predicate3<T>{
     }
 
     /**
-     * userPredicate.build(new User()).check(Validation.class, UserMessage.FORGET, predicate1)
+     * userPredicate.buildTarget(new User()).check(Validation.class, UserMessage.FORGET, predicate1)
      *                                .check(WowjoyException.class, UserMessage.FORGET, predicate2);
      * @param clazz
      * @param predicate
@@ -94,7 +94,7 @@ class Predicate3<T>{
     }
 
     /**
-     * userPredicate.build(new User()).check(Validation.class, UserMessage.FORGET, predicate1, predicate2);
+     * userPredicate.buildTarget(new User()).batchCheck(Validation.class, UserMessage.FORGET, predicate1, predicate2);
      * @param clazz
      * @param errorMessage
      * @param predicate
