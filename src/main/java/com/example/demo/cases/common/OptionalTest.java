@@ -122,6 +122,14 @@ public class OptionalTest {
         System.out.println(upperName.orElse("No value found"));
     }
 
+    @Test
+    public void testElseThrow() {
+        String a = Optional.of("a").orElseThrow(() -> new RuntimeException());
+        String b = Optional.of("b").orElse(get());
+        String c = Optional.of("c").orElseGet(() -> get());
+
+    }
+
     //===================2019-03-27======================================
 
     /**
