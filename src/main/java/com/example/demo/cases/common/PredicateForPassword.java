@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 /**
  * 此模块用于测试将密码中各个需要校验的部分进行拆分和组合
  */
-//@SuppressWarnings("unchecked")
+@SuppressWarnings("unchecked")
 public class PredicateForPassword {
 
     @Test
