@@ -10,6 +10,7 @@ import java.util.function.Predicate;
 /**
  * 此模块用于测试将密码中各个需要校验的部分进行拆分和组合
  */
+//@SuppressWarnings("unchecked")
 public class PredicateForPassword {
 
     @Test
@@ -38,6 +39,7 @@ class PasswordPredicate{
     }
 }
 
+
 class Predicate3<T>{
 
     private static final String PARAMETER_LACK = "required parameter is lack";
@@ -60,7 +62,7 @@ class Predicate3<T>{
      * @param predicate
      * @return
      */
-    public Predicate3<T> check(ErrorMessage e, Predicate<T> predicate) {
+    public Predicate3<T> check(ErrorMessage<String, String> e, Predicate<T> predicate) {
         return batchCheck(e, predicate);
     }
 
@@ -138,7 +140,7 @@ class Predicate3<T>{
     }
 }
 
-enum UserMessage implements ErrorMessage{
+enum UserMessage implements ErrorMessage<String, String>{
     FORGET("1", "aaa"),
     LEAVE("2", "bbb"),;
     String type;
