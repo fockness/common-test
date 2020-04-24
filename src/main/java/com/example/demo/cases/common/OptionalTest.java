@@ -142,5 +142,10 @@ public class OptionalTest {
             System.out.println(s.toUpperCase());
         });
         optional.orElseGet(String::new);
+        optional.orElseGet(() -> get());
+    }
+
+    private String get(){
+        return null;
     }
 }

@@ -37,6 +37,10 @@ class PasswordPredicate{
     public static Predicate<User> lessThan28(){
         return p->p.getAge() <= 28;
     }
+
+    public static Predicate<User> all(){
+        return moreThan18().and(lessThan28());
+    }
 }
 
 
