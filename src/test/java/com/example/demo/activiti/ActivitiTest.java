@@ -19,7 +19,7 @@ public class ActivitiTest{
 
     @Autowired
     private RepositoryService repositoryService;
-
+    
     @Test
     public void testInit(){
         Deployment deployment = repositoryService.createDeployment().addClasspathResource("processes/testB.bpmn")
