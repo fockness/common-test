@@ -1,7 +1,6 @@
 package com.example.demo.cases.common;
 
 import org.junit.Test;
-import org.omg.CORBA.INTERNAL;
 
 import java.util.function.Function;
 
