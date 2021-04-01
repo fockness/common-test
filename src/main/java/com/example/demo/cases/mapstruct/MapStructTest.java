@@ -1,3 +1,4 @@
+/*
 package com.example.demo.cases.mapstruct;
 
 import lombok.Data;
@@ -60,3 +61,4 @@ enum Gender{
         this.value = value;
     }
 }
+*/

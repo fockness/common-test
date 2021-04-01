@@ -1,3 +1,4 @@
+/*
 package com.example.demo.activiti;
 
 import org.activiti.engine.RepositoryService;
@@ -36,3 +37,4 @@ public class ActivitiTest{
         System.out.println("流程定义ID:"+processInstance.getProcessDefinitionId());
     }
 }
+*/

@@ -1,7 +1,7 @@
 spring:
-  activiti:
-    process-definition-location-prefix: classpath*:/processes/
-    check-process-definitions: false
+#  activiti:
+#    process-definition-location-prefix: classpath*:/processes/
+#    check-process-definitions: false
   datasource:
     url: jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true
     username: root
@@ -29,6 +29,12 @@ spring:
   #liquibase:
     #enabled: true
     #change-log: "classpath:/liquibase/liquibase-master2.xml"
+  #rabbitmq配置
+  rabbitmq:
+    host: 192.168.66.66
+    port: 5672
+    username: guest
+    password: guest
 server:
   port: 8079
 #MyBatis配置
@@ -36,3 +42,5 @@ mybatis:
   mapper-locations: classpath:com/examples/demo/cases/mapper/*.xml
   configuration:
       map-underscore-to-camel-case: true
+
+

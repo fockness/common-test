@@ -8,6 +8,9 @@ import java.io.IOException;
 @RestController
 public class HelloController {
 
+//    @Autowired
+//    private MsgProducer msgProducer;
+
     @GetMapping("/helloSpringBoot")
     public String HelloSpring (){
         return "hello spring boot";
@@ -26,4 +29,10 @@ public class HelloController {
         p.waitFor();
         return "test";
     }
+
+    /*@PostMapping("/test/send")
+    public String testSendMsg(){
+        msgProducer.sendMsg(ExchangeConstant.EXCHANGE_A, RoutingKeyConstant.ROUTINGKEY_A, "AAA");
+        return "send";
+    }*/
 }
