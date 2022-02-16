@@ -1,6 +1,6 @@
 package com.example.demo.cases.service.impl;
 
-import com.example.demo.cases.domain.SysUser;
+import com.example.demo.cases.entity.domain.SysUser;
 import com.example.demo.cases.service.OrderService;
 import com.example.demo.cases.service.UserService;
 import com.google.common.collect.Lists;

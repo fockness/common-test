@@ -1,7 +1,10 @@
 package com.example.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.cases.entity.dto.AddValidationGroup;
+import com.example.demo.cases.entity.dto.EditValidationGroup;
+import com.example.demo.cases.entity.dto.UserAddDTO;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -35,4 +38,14 @@ public class HelloController {
         msgProducer.sendMsg(ExchangeConstant.EXCHANGE_A, RoutingKeyConstant.ROUTINGKEY_A, "AAA");
         return "send";
     }*/
+
+    @PostMapping("/user")
+    public String addUser(@Validated(AddValidationGroup.class) @RequestBody UserAddDTO obj) {
+        return "test";
+    }
+
+    @PutMapping("/user")
+    public String updateUser(@Validated(EditValidationGroup.class) @RequestBody UserAddDTO obj) {
+        return "test";
+    }
 }

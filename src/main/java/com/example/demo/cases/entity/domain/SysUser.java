@@ -1,4 +1,4 @@
-package com.example.demo.cases.domain;
+package com.example.demo.cases.entity.domain;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;

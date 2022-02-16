@@ -1,6 +1,6 @@
 package com.example.demo.cases.service;
 
-import com.example.demo.cases.domain.SysUser;
+import com.example.demo.cases.entity.domain.SysUser;
 
 import java.util.List;
 import java.util.Optional;

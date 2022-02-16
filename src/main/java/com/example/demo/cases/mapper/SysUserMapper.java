@@ -1,6 +1,6 @@
 package com.example.demo.cases.mapper;
 
-import com.example.demo.cases.domain.SysUser;
+import com.example.demo.cases.entity.domain.SysUser;
 import org.apache.ibatis.annotations.Insert;
 
 //@Mapper
